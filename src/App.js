@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Konva from 'konva';
-import { Stage, Layer, Line } from 'react-konva';
+import { Stage, Layer, Group, Line } from 'react-konva';
 import './App.css';
 
 class App extends Component {
@@ -19,8 +19,20 @@ export default App;
 
 
 class SubwayLine extends Component {
-  constructor(props) {
-    super(props);
+  render() {
+    return (
+      <Group>
+        {this.props.segments.map((segment) => {
+          return (
+            <Line
+              points={segment.startPoint.concat(segment.endPoint)}
+              stroke={this.props.color}
+              strokeWidth={10}
+            />
+          );
+        })}
+      </Group>
+    );
   }
 }
 
@@ -29,7 +41,8 @@ class SubwayMap extends Component {
     super(props);
 
     this.state = {
-      lines: []
+      lines: [],
+      currentStartPoint: []
     };
     //   lines: [
     //     {
@@ -73,16 +86,13 @@ class SubwayMap extends Component {
       color: Konva.Util.getRandomColor(),
       segments: [
         {
-          startPoint: [x, y],
-          endPoint: [100 , 100]
-        },
-        {
-          startPoint: [100, 100],
-          endPoint: [150, 200]
+          startPoint: this.state.currentStartPoint.length === 0 ? [0, 0] : this.state.currentStartPoint,
+          endPoint: [x, y]
         }
       ]
     });
-    this.setState({ lines: lines })
+    this.setState({ lines: lines });
+    this.setState({ currentStartPoint: [x, y] });
   }
 
   changeEndPoint(event) {
@@ -102,15 +112,21 @@ class SubwayMap extends Component {
         // onClick={this.changeEndPoint}
       >
         <Layer>
-          {this.state.lines.map((line) => {
-            return (
-              <Line
-                points={line.segments[0].startPoint.concat(line.segments[0].endPoint)}
-                stroke={line.color}
-                strokeWidth={10}
-              />
-            );
-          })}
+          <Group>
+            {this.state.lines.map((line) => {
+              return (
+                <SubwayLine 
+                  color={line.color}
+                  segments={line.segments}
+                />
+                // <Line
+                //   points={line.segments[0].startPoint.concat(line.segments[0].endPoint)}
+                //   stroke={line.color}
+                //   strokeWidth={10}
+                // />
+              );
+            })}
+          </Group>
           {/* <Line
             points={this.state.lines[0].segments[0].startPoint.concat(this.state.lines[0].segments[0].endPoint)}
             stroke={this.state.lines[0].color}
