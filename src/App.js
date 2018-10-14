@@ -18,42 +18,71 @@ class App extends Component {
 export default App;
 
 
+class SubwayLine extends Component {
+  constructor(props) {
+    super(props);
+  }
+}
+
 class SubwayMap extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      lines: [
+      lines: []
+    };
+    //   lines: [
+    //     {
+    //       color: "hsl(142.4, 71.1%, 48.8%)",
+    //       segments: [
+    //         {
+    //           startPoint: [0, 0],
+    //           endPoint: [100, 100]
+    //         },
+    //         {
+    //           startPoint: [100, 100],
+    //           endPoint: [200, 400]
+    //         }
+    //       ]
+    //     },
+    //     {
+    //       color: "hsl(271.1, 75.9%, 52.7%)",
+    //       segments: [
+    //         {
+    //           startPoint: [300, 100],
+    //           endPoint: [300, 150]
+    //         },
+    //         {
+    //           startPoint: [300, 150],
+    //           endPoint: [200, 100]
+    //         }
+    //       ]
+    //     }
+    //   ]
+    // }; 
+
+    this.addLine = this.addLine.bind(this);
+    this.changeEndPoint = this.changeEndPoint.bind(this);
+  }
+
+  addLine(event) {
+    let x = event.evt.offsetX;
+    let y = event.evt.offsetY;
+    let lines = this.state.lines.slice();
+    lines.push({
+      color: Konva.Util.getRandomColor(),
+      segments: [
         {
-          color: "hsl(142.4, 71.1%, 48.8%)",
-          segments: [
-            {
-              startPoint: [0, 0],
-              endPoint: [100, 100]
-            },
-            {
-              startPoint: [100, 100],
-              endPoint: [200, 400]
-            }
-          ]
+          startPoint: [x, y],
+          endPoint: [100 , 100]
         },
         {
-          color: "hsl(271.1, 75.9%, 52.7%)",
-          segments: [
-            {
-              startPoint: [300, 100],
-              endPoint: [300, 150]
-            },
-            {
-              startPoint: [300, 150],
-              endPoint: [200, 100]
-            }
-          ]
+          startPoint: [100, 100],
+          endPoint: [150, 200]
         }
       ]
-    }; 
-
-    this.changeEndPoint = this.changeEndPoint.bind(this);
+    });
+    this.setState({ lines: lines })
   }
 
   changeEndPoint(event) {
@@ -69,10 +98,20 @@ class SubwayMap extends Component {
       <Stage 
         width={500} 
         height={500} 
-        onClick={this.changeEndPoint}
+        onClick={this.addLine}
+        // onClick={this.changeEndPoint}
       >
         <Layer>
-          <Line
+          {this.state.lines.map((line) => {
+            return (
+              <Line
+                points={line.segments[0].startPoint.concat(line.segments[0].endPoint)}
+                stroke={line.color}
+                strokeWidth={10}
+              />
+            );
+          })}
+          {/* <Line
             points={this.state.lines[0].segments[0].startPoint.concat(this.state.lines[0].segments[0].endPoint)}
             stroke={this.state.lines[0].color}
             strokeWidth={10}
@@ -91,7 +130,7 @@ class SubwayMap extends Component {
             points={this.state.lines[1].segments[1].startPoint.concat(this.state.lines[1].segments[1].endPoint)}
             stroke={this.state.lines[1].color}
             strokeWidth={10}
-          />
+          /> */}
         </Layer>
       </Stage>
     );
