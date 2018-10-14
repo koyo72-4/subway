@@ -8,7 +8,7 @@ class App extends Component {
     return (
       <div className="App">
         <div id="map">
-          <MyMap />
+          <SubwayMap />
         </div>
       </div>
     );
@@ -18,25 +18,34 @@ class App extends Component {
 export default App;
 
 
-class MyMap extends Component {
+class SubwayMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      endPoint: [100, 200]
+      endPoint: [0, 0, 100, 200]
     }
-  }
-  changeEndPoint() {
 
+    this.changeEndPoint = this.changeEndPoint.bind(this);
+  }
+  changeEndPoint(event) {
+    console.log(event);
+    let x = event.evt.offsetX;
+    let y = event.evt.offsetY;
+    console.log(x, y);
+    this.setState({ endPoint: [0, 0, x, y] });
   }
   render() {
     return (
-      <Stage width={500} height={500}>
+      <Stage 
+        width={500} 
+        height={500}
+        onClick={this.changeEndPoint}
+      >
         <Layer>
           <Line
-            onClick={this.changeEndPoint}
             x={5}
             y={5}
-            points={[0, 0].concat(this.state.endPoint)}
+            points={this.state.endPoint}
             closed
             stroke="black"
           />
