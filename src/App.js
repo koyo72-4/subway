@@ -21,33 +21,76 @@ export default App;
 class SubwayMap extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      endPoint: [0, 0, 100, 200]
-    }
+      lines: [
+        {
+          color: "hsl(142.4, 71.1%, 48.8%)",
+          segments: [
+            {
+              startPoint: [0, 0],
+              endPoint: [100, 100]
+            },
+            {
+              startPoint: [100, 100],
+              endPoint: [200, 400]
+            }
+          ]
+        },
+        {
+          color: "hsl(271.1, 75.9%, 52.7%)",
+          segments: [
+            {
+              startPoint: [300, 100],
+              endPoint: [300, 150]
+            },
+            {
+              startPoint: [300, 150],
+              endPoint: [200, 100]
+            }
+          ]
+        }
+      ]
+    }; 
 
     this.changeEndPoint = this.changeEndPoint.bind(this);
   }
+
   changeEndPoint(event) {
-    console.log(event);
     let x = event.evt.offsetX;
     let y = event.evt.offsetY;
-    console.log(x, y);
-    this.setState({ endPoint: [0, 0, x, y] });
+    let lines = this.state.lines.slice();
+    lines[0].segments[1].endPoint = [x, y];
+    this.setState({ lines: lines });
   }
+
   render() {
     return (
       <Stage 
         width={500} 
-        height={500}
+        height={500} 
         onClick={this.changeEndPoint}
       >
         <Layer>
           <Line
-            x={5}
-            y={5}
-            points={this.state.endPoint}
-            closed
-            stroke="black"
+            points={this.state.lines[0].segments[0].startPoint.concat(this.state.lines[0].segments[0].endPoint)}
+            stroke={this.state.lines[0].color}
+            strokeWidth={10}
+          />
+          <Line
+            points={this.state.lines[0].segments[1].startPoint.concat(this.state.lines[0].segments[1].endPoint)}
+            stroke={this.state.lines[0].color}
+            strokeWidth={10}
+          />
+          <Line
+            points={this.state.lines[1].segments[0].startPoint.concat(this.state.lines[1].segments[0].endPoint)}
+            stroke={this.state.lines[1].color}
+            strokeWidth={10}
+          />
+          <Line
+            points={this.state.lines[1].segments[1].startPoint.concat(this.state.lines[1].segments[1].endPoint)}
+            stroke={this.state.lines[1].color}
+            strokeWidth={10}
           />
         </Layer>
       </Stage>
