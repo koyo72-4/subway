@@ -11,47 +11,22 @@ class SubwayMap extends Component {
       lines: [],
       circles: []
     };
-    //   lines: [
-    //     {
-    //       color: "hsl(142.4, 71.1%, 48.8%)",
-    //       segments: [
-    //         {
-    //           startPoint: [0, 0],
-    //           endPoint: [100, 100]
-    //         },
-    //         {
-    //           startPoint: [100, 100],
-    //           endPoint: [200, 400]
-    //         }
-    //       ]
-    //     },
-    //     {
-    //       color: "hsl(271.1, 75.9%, 52.7%)",
-    //       segments: [
-    //         {
-    //           startPoint: [300, 100],
-    //           endPoint: [300, 150]
-    //         },
-    //         {
-    //           startPoint: [300, 150],
-    //           endPoint: [200, 100]
-    //         }
-    //       ]
-    //     }
-    //   ]
-    // }; 
 
-    this.addLine = this.addLine.bind(this);
-    this.changeEndPoint = this.changeEndPoint.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  addLine(event) {
-    console.log(this.state);
-
+  handleClick(event) {
     if (this.props.currentStartPoint.length === 0) {
       let startX = event.evt.offsetX;
       let startY = event.evt.offsetY;
       let circles = this.state.circles.slice();
+      let lines = this.state.lines.slice();
+      this.props.updateColor();
+
+      lines.push({
+        color: this.props.currentColor,
+        segments: []
+      });
 
       circles.push({
         x: startX,
@@ -61,33 +36,23 @@ class SubwayMap extends Component {
       });
 
       this.setState({ circles: circles });
+      this.setState({ lines: lines });
       this.props.updateCurrentStartPoint([startX, startY]);
     } else {
       let endX = event.evt.offsetX;
       let endY = event.evt.offsetY;
       let lines = this.state.lines.slice();
+      let currentLine = lines[lines.length - 1];
 
-      lines.push({
-        color: this.props.currentColor,
-        segments: [
-          {
-            startPoint: this.props.currentStartPoint,
-            endPoint: [endX, endY]
-          }
-        ]
+      currentLine.segments.push({
+        startPoint: this.props.currentStartPoint,
+        endPoint: [endX, endY]
       });
 
       this.setState({ lines: lines });
       this.props.updateCurrentStartPoint([endX, endY]);
     }
-  }
-
-  changeEndPoint(event) {
-    let x = event.evt.offsetX;
-    let y = event.evt.offsetY;
-    let lines = this.state.lines.slice();
-    lines[0].segments[1].endPoint = [x, y];
-    this.setState({ lines: lines });
+    console.log(this.state);
   }
 
   render() {
@@ -95,8 +60,7 @@ class SubwayMap extends Component {
       <Stage 
         width={500} 
         height={500} 
-        onClick={this.addLine}
-        // onClick={this.changeEndPoint}
+        onClick={this.handleClick}
       >
         <Layer>
           <Group>
@@ -116,34 +80,9 @@ class SubwayMap extends Component {
                   color={line.color}
                   segments={line.segments}
                 />
-                // <Line
-                //   points={line.segments[0].startPoint.concat(line.segments[0].endPoint)}
-                //   stroke={line.color}
-                //   strokeWidth={10}
-                // />
               );
             })}
           </Group>
-          {/* <Line
-            points={this.state.lines[0].segments[0].startPoint.concat(this.state.lines[0].segments[0].endPoint)}
-            stroke={this.state.lines[0].color}
-            strokeWidth={10}
-          />
-          <Line
-            points={this.state.lines[0].segments[1].startPoint.concat(this.state.lines[0].segments[1].endPoint)}
-            stroke={this.state.lines[0].color}
-            strokeWidth={10}
-          />
-          <Line
-            points={this.state.lines[1].segments[0].startPoint.concat(this.state.lines[1].segments[0].endPoint)}
-            stroke={this.state.lines[1].color}
-            strokeWidth={10}
-          />
-          <Line
-            points={this.state.lines[1].segments[1].startPoint.concat(this.state.lines[1].segments[1].endPoint)}
-            stroke={this.state.lines[1].color}
-            strokeWidth={10}
-          /> */}
         </Layer>
       </Stage>
     );

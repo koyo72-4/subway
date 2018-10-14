@@ -18,7 +18,6 @@ class App extends Component {
 
   updateColor() {
     this.setState({ currentColor: Konva.Util.getRandomColor() });
-    console.log(this.state);
   }
 
   updateCurrentStartPoint(array) {
@@ -28,24 +27,22 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <button 
-          type="button"
-          onClick={this.updateColor}
-        >
-          Click me for a new color
-        </button>
-        <button
-          type="button"
-          onClick={() => this.updateCurrentStartPoint([])}
-        >
-          New Line
-        </button>
-        <div id="map">
-          <SubwayMap 
-            currentColor={this.state.currentColor}
-            currentStartPoint={this.state.currentStartPoint}
-            updateCurrentStartPoint={this.updateCurrentStartPoint}
-          />
+        <h1>Design a Subway</h1>
+        <div id="interface">
+          <button
+            type="button"
+            onClick={() => this.updateCurrentStartPoint([])}
+          >
+            New Line
+          </button>
+          <div id="map">
+            <SubwayMap 
+              currentColor={this.state.currentColor}
+              currentStartPoint={this.state.currentStartPoint}
+              updateColor={this.updateColor}
+              updateCurrentStartPoint={this.updateCurrentStartPoint}
+            />
+          </div>
         </div>
       </div>
     );
