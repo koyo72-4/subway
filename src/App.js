@@ -6,12 +6,14 @@ import SubwayMap from './SubwayMap/SubwayMap';
 class App extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       currentColor: "hsl(142.4, 71.1%, 48.8%)",
-      startNewLine: false
+      currentStartPoint: []
     }
+
     this.updateColor = this.updateColor.bind(this);
-    this.beginLine = this.beginLine.bind(this);
+    this.updateCurrentStartPoint = this.updateCurrentStartPoint.bind(this);
   }
 
   updateColor() {
@@ -19,12 +21,8 @@ class App extends Component {
     console.log(this.state);
   }
 
-  beginLine() {
-    this.setState({ startNewLine: true });
-  }
-
-  keepWithSameLine() {
-    this.setState({ startNewLine: false });
+  updateCurrentStartPoint(array) {
+    this.setState({ currentStartPoint: array });
   }
 
   render() {
@@ -38,15 +36,15 @@ class App extends Component {
         </button>
         <button
           type="button"
-          onClick={this.beginLine}
+          onClick={() => this.updateCurrentStartPoint([])}
         >
           New Line
         </button>
         <div id="map">
           <SubwayMap 
             currentColor={this.state.currentColor}
-            startNewLine={this.state.startNewLine}
-            onClick={this.keepWithSameLine}
+            currentStartPoint={this.state.currentStartPoint}
+            updateCurrentStartPoint={this.updateCurrentStartPoint}
           />
         </div>
       </div>

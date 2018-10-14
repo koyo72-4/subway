@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Stage, Layer, Group } from 'react-konva';
+import { Stage, Layer, Group, Circle } from 'react-konva';
 import '../App.css';
 import { SubwayLine } from '../SubwayLine/SubwayLine';
 
@@ -9,7 +9,7 @@ class SubwayMap extends Component {
 
     this.state = {
       lines: [],
-      currentStartPoint: []
+      circles: []
     };
     //   lines: [
     //     {
@@ -46,34 +46,39 @@ class SubwayMap extends Component {
   }
 
   addLine(event) {
-    if (!this.props.startNewLine) {
-      let x = event.evt.offsetX;
-      let y = event.evt.offsetY;
-      let lines = this.state.lines.slice();
-      lines.push({
-        color: this.props.currentColor,
-        segments: [
-          {
-            startPoint: this.state.currentStartPoint.length === 0 ? [0, 0] : this.state.currentStartPoint,
-            endPoint: [x, y]
-          }
-        ]
+    console.log(this.state);
+
+    if (this.props.currentStartPoint.length === 0) {
+      let startX = event.evt.offsetX;
+      let startY = event.evt.offsetY;
+      let circles = this.state.circles.slice();
+
+      circles.push({
+        x: startX,
+        y: startY,
+        radius: 5,
+        fill: this.props.currentColor
       });
-      this.setState({ lines: lines });
-      this.setState({ currentStartPoint: [x, y] });
+
+      this.setState({ circles: circles });
+      this.props.updateCurrentStartPoint([startX, startY]);
     } else {
-      let x = event.evt.offsetX;
-      let y = event.evt.offsetY;
+      let endX = event.evt.offsetX;
+      let endY = event.evt.offsetY;
       let lines = this.state.lines.slice();
+
       lines.push({
         color: this.props.currentColor,
         segments: [
           {
-            startPoint: this.state.currentStartPoint.length === 0 ? [0, 0] : this.state.currentStartPoint,
-            endPoint: [x, y]
+            startPoint: this.props.currentStartPoint,
+            endPoint: [endX, endY]
           }
         ]
       });
+
+      this.setState({ lines: lines });
+      this.props.updateCurrentStartPoint([endX, endY]);
     }
   }
 
@@ -95,6 +100,16 @@ class SubwayMap extends Component {
       >
         <Layer>
           <Group>
+            {this.state.circles.map((circle) => {
+              return (
+                <Circle
+                  x={circle.x}
+                  y={circle.y}
+                  radius={circle.radius}
+                  fill={circle.fill}
+                />
+              );
+            })}
             {this.state.lines.map((line) => {
               return (
                 <SubwayLine 
