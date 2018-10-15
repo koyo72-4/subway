@@ -14,56 +14,60 @@ class SubwayMap extends Component {
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.startNewLine = this.startNewLine.bind(this);
+    this.addToCurrentLine = this.addToCurrentLine.bind(this);
+    this.updateState = this.updateState.bind(this);
+    this.drawCircle = this.drawCircle.bind(this);
   }
 
   handleClick(event) {
-    let circles = this.state.circles.slice();
-    let lines = this.state.lines.slice();
-
     if (this.props.currentStartPoint.length === 0) {
-      let startX = event.evt.offsetX;
-      let startY = event.evt.offsetY;
-      this.props.updateColor();
-
-      lines.push({
-        color: this.props.currentColor,
-        segments: []
-      });
-
-      circles.push({
-        x: startX,
-        y: startY,
-        radius: 10,
-        fill: 'white',
-        stroke: this.props.currentColor
-      });
-
-      this.setState({ circles: circles });
-      this.setState({ lines: lines });
-      this.props.updateCurrentStartPoint([startX, startY]);
-    
+      const startX = event.evt.offsetX;
+      const startY = event.evt.offsetY;
+      this.startNewLine(startX, startY);   
     } else {
-      let endX = event.evt.offsetX;
-      let endY = event.evt.offsetY;
-      let currentLine = lines[lines.length - 1];
-
-      currentLine.segments.push({
-        startPoint: this.props.currentStartPoint,
-        endPoint: [endX, endY]
-      });
-
-      circles.push({
-        x: endX,
-        y: endY,
-        radius: 10,
-        fill: 'white',
-        stroke: this.props.currentColor
-      });
-
-      this.setState({ circles: circles });
-      this.setState({ lines: lines });
-      this.props.updateCurrentStartPoint([endX, endY]);
+      const endX = event.evt.offsetX;
+      const endY = event.evt.offsetY;
+      this.addToCurrentLine(endX, endY);
     }
+  }
+
+  startNewLine(x, y) {
+    let lines = this.state.lines.slice();
+    this.props.updateColor();
+    lines.push({
+      color: this.props.currentColor,
+      segments: []
+    });
+    this.updateState(x, y, lines);
+  }
+
+  addToCurrentLine(x, y) {
+    let lines = this.state.lines.slice();
+    let currentLine = lines[lines.length - 1];
+    currentLine.segments.push({
+      startPoint: this.props.currentStartPoint,
+      endPoint: [x, y]
+    });
+    this.updateState(x, y, lines);
+  }
+
+  updateState(x, y, lines) {
+    this.drawCircle(x, y);
+    this.setState({ lines: lines });
+    this.props.updateCurrentStartPoint([x, y]);
+  }
+
+  drawCircle(x, y) {
+    let circles = this.state.circles.slice();
+    circles.push({
+      x: x,
+      y: y,
+      radius: 10,
+      fill: 'white',
+      stroke: this.props.currentColor
+    });
+    this.setState({ circles: circles });
   }
 
   render() {
