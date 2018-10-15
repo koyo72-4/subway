@@ -9,19 +9,58 @@ class App extends Component {
 
     this.state = {
       currentColor: "hsl(142.4, 71.1%, 48.8%)",
-      currentStartPoint: []
+      currentStartPoint: [],
+      lines: [],
+      circles: []
     };
 
-    this.updateColor = this.updateColor.bind(this);
     this.updateCurrentStartPoint = this.updateCurrentStartPoint.bind(this);
-  }
-
-  updateColor() {
-    this.setState({ currentColor: Konva.Util.getRandomColor() });
+    this.startNewLine = this.startNewLine.bind(this);
+    this.addToCurrentLine = this.addToCurrentLine.bind(this);
+    this.updateState = this.updateState.bind(this);
+    this.drawCircle = this.drawCircle.bind(this);
   }
 
   updateCurrentStartPoint(array) {
     this.setState({ currentStartPoint: array });
+  }
+
+  startNewLine(x, y) {
+    let lines = this.state.lines.slice();
+    this.setState({ currentColor: Konva.Util.getRandomColor() });
+    lines.push({
+      color: this.state.currentColor,
+      segments: []
+    });
+    this.updateState(x, y, lines);
+  }
+
+  addToCurrentLine(x, y) {
+    let lines = this.state.lines.slice();
+    let currentLine = lines[lines.length - 1];
+    currentLine.segments.push({
+      startPoint: this.state.currentStartPoint,
+      endPoint: [x, y]
+    });
+    this.updateState(x, y, lines);
+  }
+
+  updateState(x, y, lines) {
+    this.drawCircle(x, y);
+    this.setState({ lines: lines });
+    this.updateCurrentStartPoint([x, y]);
+  }
+
+  drawCircle(x, y) {
+    let circles = this.state.circles.slice();
+    circles.push({
+      x: x,
+      y: y,
+      radius: 10,
+      fill: 'white',
+      stroke: this.state.currentColor
+    });
+    this.setState({ circles: circles });
   }
 
   render() {
@@ -39,10 +78,11 @@ class App extends Component {
           </button>
           <div id="map">
             <SubwayMap 
-              currentColor={this.state.currentColor}
               currentStartPoint={this.state.currentStartPoint}
-              updateColor={this.updateColor}
-              updateCurrentStartPoint={this.updateCurrentStartPoint}
+              lines={this.state.lines}
+              circles={this.state.circles}
+              startNewLine={this.startNewLine}
+              addToCurrentLine={this.addToCurrentLine}
             />
           </div>
         </div>
