@@ -6,15 +6,16 @@
 
 h1 {
   font-size: 50px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   width: 1000px;
-  color: orange;
-  text-shadow: 1px 1px black;
+  color: #ff8c00;
+  text-shadow: 1px 2px 2px black;
+  /* text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 
 p {
-  font-size: 23px;
-  max-width: 500px;
+  font-size: 21px;
+  /* max-width: 500px; */
   margin-bottom: 15px;
 }
 
@@ -23,16 +24,40 @@ p:last-of-type {
   margin-bottom: 30px;
 }
 
-button {
+#new-button {
   font-size: 23px;
   border: 2px solid black;
-  padding: 5px;
+  border-radius: 30px;
+  background-color: #242124;
+  color: white;
+  padding: 6px;
+  margin-right: 40px;
+}
+
+#new-button:hover {
+  background-color: white;
+  color: black;
+}
+
+#new-button:focus {
+  outline: none;
+}
+
+#new-button:active {
+  border-color: white;
+}
+
+#clear-button {
+  font-size: 18px;
+  border: 1px solid black;
+  padding: 4px;
 }
 
 #map {
+  background-color: white;
   width: 1000px;
   height: 600px;
   margin-top: 20px;
   margin-bottom: 30px;
-  border: 4px solid orange;
+  border: 4px solid #ff8c00;
 }

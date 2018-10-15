@@ -8,13 +8,14 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentColor: "hsl(142.4, 71.1%, 48.8%)",
+      currentColor: "#0000ff",
       currentStartPoint: [],
       lines: [],
       circles: []
     };
 
     this.updateCurrentStartPoint = this.updateCurrentStartPoint.bind(this);
+    this.clearMap = this.clearMap.bind(this);
     this.startNewLine = this.startNewLine.bind(this);
     this.addToCurrentLine = this.addToCurrentLine.bind(this);
     this.updateState = this.updateState.bind(this);
@@ -23,6 +24,18 @@ class App extends Component {
 
   updateCurrentStartPoint(array) {
     this.setState({ currentStartPoint: array });
+  }
+
+  clearMap() {
+    let lines = this.state.lines.slice();
+    lines.length = 0;
+    let circles = this.state.circles.slice();
+    circles.length = 0;
+    this.setState({ 
+      lines: lines,
+      circles: circles
+    });
+    this.updateCurrentStartPoint([]);
   }
 
   startNewLine(x, y) {
@@ -72,9 +85,17 @@ class App extends Component {
           <p>Click the "New Line" button to start a new subway line.</p>
           <button
             type="button"
+            id="new-button"
             onClick={() => this.updateCurrentStartPoint([])}
           >
             New Line
+          </button>
+          <button
+            type="button"
+            id="clear-button"
+            onClick={this.clearMap}
+          >
+            Clear the map
           </button>
           <div id="map">
             <SubwayMap 
