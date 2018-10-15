@@ -10,7 +10,7 @@ class App extends Component {
     this.state = {
       currentColor: "hsl(142.4, 71.1%, 48.8%)",
       currentStartPoint: []
-    }
+    };
 
     this.updateColor = this.updateColor.bind(this);
     this.updateCurrentStartPoint = this.updateCurrentStartPoint.bind(this);
@@ -29,6 +29,7 @@ class App extends Component {
       <div className="App">
         <h1>Design a Subway</h1>
         <div id="interface">
+          <p>Click anywhere on the map to place a subway station at that location.</p>
           <button
             type="button"
             onClick={() => this.updateCurrentStartPoint([])}
