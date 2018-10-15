@@ -30,6 +30,7 @@ class App extends Component {
         <h1>Design a Subway</h1>
         <div id="interface">
           <p>Click anywhere on the map to place a subway station at that location.</p>
+          <p>Click the "New Line" button to start a new subway line.</p>
           <button
             type="button"
             onClick={() => this.updateCurrentStartPoint([])}

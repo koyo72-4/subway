@@ -16,7 +16,14 @@ class MapImage extends React.Component {
   }
 
   render() {
-    return <Image image={this.state.image} opacity={0.2} />;
+    return (
+      <Image 
+        image={this.state.image} 
+        opacity={0.2} 
+        offsetY={100}
+        offsetX={20}
+      />
+    );
   }
 }
 

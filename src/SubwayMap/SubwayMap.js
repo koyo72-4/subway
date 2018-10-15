@@ -70,7 +70,7 @@ class SubwayMap extends Component {
     return (
       <Stage 
         width={1000} 
-        height={700} 
+        height={600} 
         onClick={this.handleClick}
       >
         <Layer>
