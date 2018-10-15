@@ -33,7 +33,7 @@ class SubwayMap extends Component {
       circles.push({
         x: startX,
         y: startY,
-        radius: 5,
+        radius: 10,
         fill: 'white',
         stroke: this.props.currentColor
       });
@@ -55,7 +55,7 @@ class SubwayMap extends Component {
       circles.push({
         x: endX,
         y: endY,
-        radius: 5,
+        radius: 10,
         fill: 'white',
         stroke: this.props.currentColor
       });

@@ -10,7 +10,7 @@ export function SubwayLine(props) {
           <Line
             points={segment.startPoint.concat(segment.endPoint)}
             stroke={props.color}
-            strokeWidth={10}
+            strokeWidth={15}
           />
         );
       })}
