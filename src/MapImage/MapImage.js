@@ -11,7 +11,7 @@ class MapImage extends React.Component {
     const image = new window.Image();
     image.src = '/images/1428px-Downtown_Baltimore_map.png';
     image.onload = () => {
-      this.setState({ image: image });
+      this.setState({ image });
     };
   }
 

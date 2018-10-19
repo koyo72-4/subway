@@ -32,8 +32,8 @@ class App extends Component {
     let circles = this.state.circles.slice();
     circles.length = 0;
     this.setState({ 
-      lines: lines,
-      circles: circles
+      lines, 
+      circles 
     });
     this.updateCurrentStartPoint([]);
   }
@@ -60,20 +60,20 @@ class App extends Component {
 
   updateState(x, y, lines) {
     this.drawCircle(x, y);
-    this.setState({ lines: lines });
+    this.setState({ lines });
     this.updateCurrentStartPoint([x, y]);
   }
 
   drawCircle(x, y) {
     let circles = this.state.circles.slice();
     circles.push({
-      x: x,
-      y: y,
+      x,
+      y,
       radius: 10,
       fill: 'white',
       stroke: this.state.currentColor
     });
-    this.setState({ circles: circles });
+    this.setState({ circles });
   }
 
   render() {
