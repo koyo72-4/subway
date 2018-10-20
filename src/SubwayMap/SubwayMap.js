@@ -33,27 +33,23 @@ class SubwayMap extends Component {
         <Layer>
           <MapImage />
           <Group>
-            {this.props.lines.map((line) => {
-              return (
-                <SubwayLine 
-                  color={line.color}
-                  segments={line.segments}
-                />
-              );
-            })}
+            {this.props.lines.map(line =>
+              <SubwayLine 
+                color={line.color}
+                segments={line.segments}
+              />
+            )}
           </Group>
           <Group>
-            {this.props.circles.map((circle) => {
-              return (
-                <Circle
-                  x={circle.x}
-                  y={circle.y}
-                  radius={circle.radius}
-                  fill={circle.fill}
-                  stroke={circle.stroke}
-                />
-              );
-            })}
+            {this.props.circles.map(circle => 
+              <Circle
+                x={circle.x}
+                y={circle.y}
+                radius={circle.radius}
+                fill={circle.fill}
+                stroke={circle.stroke}
+              />
+            )}
           </Group>
         </Layer>
       </Stage>

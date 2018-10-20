@@ -2,18 +2,16 @@ import React from 'react';
 import { Group, Line } from 'react-konva';
 import '../App.css';
 
-export function SubwayLine(props) {
+export function SubwayLine({ segments, color }) {
   return (
     <Group>
-      {props.segments.map((segment) => {
-        return (
-          <Line
-            points={segment.startPoint.concat(segment.endPoint)}
-            stroke={props.color}
-            strokeWidth={15}
-          />
-        );
-      })}
+      {segments.map(segment =>
+        <Line
+          points={segment.startPoint.concat(segment.endPoint)}
+          stroke={color}
+          strokeWidth={15}
+        />
+      )}
     </Group>
   );
 }
